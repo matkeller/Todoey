@@ -15,10 +15,15 @@ import UIKit
 
 class ToDoListViewController: UITableViewController {
     var itemArray = ["Bread", "Milk", "Eggs"]
+    let defaults = UserDefaults.standard   //Place to store some data
       
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        //Read data from defaults from previous sessions, but first be sure it exists
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+        }
     }
 
     
@@ -75,6 +80,7 @@ class ToDoListViewController: UITableViewController {
             //TODO - behavior for what happens when item is added
             print (textField.text!)
             self.itemArray.append(textField.text!)  //Add data to array
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
             self.tableView.reloadData()    //Reload the data to update the screen
         }
         
